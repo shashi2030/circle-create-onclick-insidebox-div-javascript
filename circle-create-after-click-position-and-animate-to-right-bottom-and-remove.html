@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+    #wrapper{
+      border:solid 1px gray;
+      width:500px;
+      height:500px;
+    }
+    .circle{
+      border:solid 1px red;
+      border-radius:50%;
+      position:absolute;
+    }
+  </style>
+</head>
+<body>
+<div id="wrapper" onclick="circle.addCircle(event)">  
+</div>
+  <script>
+    //create and animate left to right circle and removed when touched the right bottom boundry
+    function box(){
+      var wrapper = document.getElementById('wrapper'); 
+      var boundry = wrapper.offsetWidth - 2;
+      
+      
+      this.addCircle = function(event){
+        var newC = document.createElement('div');
+        var xPos = event.clientX;
+        var yPos = event.clientY;
+        var size =  Math.round((Math.random() * 20));
+        newC.setAttribute("class","circle");
+        newC.setAttribute("style", "left:"+xPos+"px;top:"+yPos+"px;width:"+size+"px;height:"+size+"px;");
+        wrapper.appendChild(newC);
+        this.animateCircle(newC,xPos,yPos);
+      }
+      this.animateCircle = function(_ele,_x,_y){                 
+        var animateDown  = setInterval(function(){ 
+            _ele.style.left = (_x++) + "px";
+            _ele.style.top = (_y++) + "px";
+            if(_x > boundry || _y > boundry){
+              clearInterval(animateDown); 
+              _ele.remove();
+            }          
+        },15);
+      }
+    }
+    var circle = new box();
+    
+  </script>
+</body>
+</html>
